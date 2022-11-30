@@ -1,6 +1,8 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-import 'package:mental_note/screens/home_screen.dart';
+
+import 'screens/home_screen.dart';
+import 'style/style.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -14,6 +16,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      builder: (BuildContext context, Widget? child) {
+        final MediaQueryData data = MediaQuery.of(context);
+        return MediaQuery(
+          data: data.copyWith(
+              textScaleFactor: data.textScaleFactor * Style.textScaleFactor),
+          child: child!,
+        );
+      },
       home: HomeScreen(),
     );
   }

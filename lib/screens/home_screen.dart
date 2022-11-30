@@ -1,10 +1,10 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
 import '../style/style.dart';
+import '../widgets/appbar.dart';
 import '../widgets/note_card.dart';
-import 'note_editor_screen.dart';
+import 'add_note_screen.dart';
 import 'note_detail_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,81 +15,89 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  void _gotoNoteDetailScreen(BuildContext context, QueryDocumentSnapshot note) {
-    Navigator.push(context,
-        MaterialPageRoute(builder: (context) => NoteDetailScreen(note)));
+  void _gotoNoteDetailScreen(BuildContext ctx, QueryDocumentSnapshot note) {
+    Navigator.push(
+        ctx, MaterialPageRoute(builder: (ctx2) => NoteDetailScreen(note)));
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Style.bgColor,
-      appBar: AppBar(
-        elevation: Style.elevation,
-        leading: Padding(
-          padding: const EdgeInsets.symmetric(vertical: 4.0, horizontal: 8.0),
-          child: Image.asset('assets/images/brain.png'),
-        ),
-        title: const Text('MENTAL NOTE'),
-        titleTextStyle: Style.mainTitle,
-        backgroundColor: Style.bgColor,
-      ),
+      appBar: appbar(context, Style.bgColor, 'Mental Note'),
       body: Padding(
-        padding: const EdgeInsets.all(Style.spacing),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Expanded(
-              child: StreamBuilder<QuerySnapshot>(
-                stream:
-                    FirebaseFirestore.instance.collection('notes').snapshots(),
-                builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  if (snapshot.hasData) {
-                    return GridView(
-                      gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                        crossAxisCount: 2,
-                        mainAxisSpacing: Style.spacing,
-                        crossAxisSpacing: Style.spacing,
+          padding: const EdgeInsets.symmetric(horizontal: Style.spacing),
+          child: Column(
+              mainAxisAlignment: MainAxisAlignment.start,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                _buildNoteCards(),
+              ])),
+      floatingActionButton: _renderFAB(),
+    );
+  }
+
+  Widget _buildNoteCards() {
+    return Expanded(
+      child: StreamBuilder<QuerySnapshot>(
+          stream: FirebaseFirestore.instance
+              .collection('notes')
+              .orderBy('date', descending: true)
+              .snapshots(),
+          builder: (ctx, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (snapshot.connectionState == ConnectionState.waiting) {
+              return const Center(child: CircularProgressIndicator());
+            }
+            if (snapshot.data!.docs.isEmpty) {
+              return Center(
+                child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Image.asset('assets/images/brain.png'),
+                      const SizedBox(height: Style.spacing * 2),
+                      Text(
+                        'You haven\'t created any notes yet.',
+                        style: Theme.of(ctx).textTheme.titleMedium,
                       ),
-                      children: snapshot.data!.docs
-                          .map((note) => noteCard(
-                                () => _gotoNoteDetailScreen(context, note),
-                                note,
-                              ))
-                          .toList(),
-                    );
-                  }
-                  return Text(
-                    'There are no notes',
-                    style: GoogleFonts.nunito(
-                      color: Colors.white,
-                    ),
-                  );
-                },
-              ),
-            ),
-            Text(
-                'Illustration by Ouch! [https://icons8.com/illustrations/author/zD2oqC8lLBBA]',
-                style: Theme.of(context).textTheme.bodySmall),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          Navigator.push(
+                    ]),
+              );
+            }
+            return Padding(
+              padding: const EdgeInsets.only(bottom: Style.spacing * 5.75),
+              child: GridView(
+                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                    crossAxisCount: 2,
+                    mainAxisSpacing: Style.spacing,
+                    crossAxisSpacing: Style.spacing,
+                  ),
+                  children: snapshot.data!.docs
+                      .map((note) => noteCard(
+                            ctx,
+                            () => _gotoNoteDetailScreen(ctx, note),
+                            note,
+                          ))
+                      .toList()),
+            );
+          }),
+    );
+  }
+
+  Widget _renderFAB() {
+    return FloatingActionButton.extended(
+      elevation: Style.elevation,
+      backgroundColor: Colors.black,
+      onPressed: () {
+        Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => const NoteEditorScreen(),
+              builder: (context) => const AddNoteScreen(),
+            ));
+      },
+      label: Text(
+        'Add Note',
+        style: Theme.of(context).textTheme.titleMedium!.copyWith(
+              color: Colors.white,
             ),
-          );
-        },
-        label: const Text('Add note'),
-        icon: const Icon(Icons.add),
       ),
     );
   }

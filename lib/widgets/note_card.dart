@@ -1,14 +1,17 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 import '../style/style.dart';
 
-Widget noteCard(Function()? onTap, QueryDocumentSnapshot note) {
+Widget noteCard(
+    BuildContext context, Function()? onTap, QueryDocumentSnapshot note) {
+  final DateTime date = DateTime.fromMillisecondsSinceEpoch(note['date']);
+
   return InkWell(
     onTap: onTap,
     child: Container(
       padding: const EdgeInsets.all(Style.spacing),
-      // margin: const EdgeInsets.all(Style.spacing),
       decoration: BoxDecoration(
         color: Style.cardsColor[note['color']],
         borderRadius: BorderRadius.circular(Style.radius),
@@ -16,14 +19,20 @@ Widget noteCard(Function()? onTap, QueryDocumentSnapshot note) {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(note['title'], style: Style.mainTitle),
+          Text(
+            note['title'],
+            style: Theme.of(context).textTheme.titleLarge,
+          ),
           const SizedBox(height: Style.spacing / 2),
-          Text(note['created'], style: Style.dateTitle),
+          Text(
+            DateFormat('MMM d, yyyy\nhh:mm a').format(date),
+            style: Theme.of(context).textTheme.titleSmall,
+          ),
           const SizedBox(height: Style.spacing / 2),
           Text(
             note['content'],
             overflow: TextOverflow.ellipsis,
-            style: Style.mainContent,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
         ],
       ),

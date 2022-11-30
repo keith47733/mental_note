@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "88767754658",
+    "project_id": "mental-note-46901",
+    "storage_bucket": "mental-note-46901.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:88767754658:android:d9a2dd201c626a7ab002fb",
+        "android_client_info": {
+          "package_name": "com.example.mental_note"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "88767754658-v8qddoglr9td2kacvjp5jgta3itrqn99.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCTdX7HQrdCbCkIEIB_D2CMcVXbdQdGlHc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "88767754658-v8qddoglr9td2kacvjp5jgta3itrqn99.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

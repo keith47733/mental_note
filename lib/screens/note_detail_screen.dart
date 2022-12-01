@@ -24,7 +24,7 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
 
     return Scaffold(
         backgroundColor: cardColor,
-        appBar: appbar(context, cardColor, ''),
+        appBar: appbar(context, cardColor, 'Mental Note Details'),
         body: SafeArea(
           child: Padding(
             padding: const EdgeInsets.all(Style.spacing),
@@ -32,17 +32,17 @@ class _NoteDetailScreenState extends State<NoteDetailScreen> {
                 Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
               Text(
                 widget.note['title'],
-                style: Theme.of(context).textTheme.titleLarge,
+                style: Theme.of(context).textTheme.labelLarge,
               ),
               const SizedBox(height: Style.spacing),
               Text(
                 DateFormat('MMM d, yyyy  hh:mm a').format(date),
-                style: Theme.of(context).textTheme.titleSmall,
+                style: Theme.of(context).textTheme.bodySmall,
               ),
               const SizedBox(height: Style.spacing * 1.5),
               Text(
                 widget.note['content'],
-                style: Theme.of(context).textTheme.bodyLarge,
+                style: Theme.of(context).textTheme.bodyMedium,
               ),
             ]),
           ),

@@ -19,23 +19,71 @@ Widget noteCard(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            note['title'],
-            style: Theme.of(context).textTheme.titleLarge,
-          ),
+          _renderButtons(context, note['color']),
           const SizedBox(height: Style.spacing / 2),
-          Text(
-            DateFormat('MMM d, yyyy\nhh:mm a').format(date),
-            style: Theme.of(context).textTheme.titleSmall,
-          ),
+          _renderTitle(context, note['title']),
           const SizedBox(height: Style.spacing / 2),
-          Text(
-            note['content'],
-            overflow: TextOverflow.ellipsis,
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
+          Expanded(child: _renderContent(context, note['content'])),
+          const SizedBox(height: Style.spacing / 2),
+          _renderDate(context, date),
         ],
       ),
+    ),
+  );
+}
+
+Widget _renderButtons(context, index) {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.end,
+    crossAxisAlignment: CrossAxisAlignment.end,
+    children: [
+      InkWell(
+          onTap: null,
+          child: Icon(
+            Icons.favorite_outline,
+            color: Style.iconsColor[index],
+          )),
+      InkWell(
+        onTap: null,
+        child: Icon(
+          Icons.edit,
+          color: Style.iconsColor[index],
+        ),
+      ),
+      InkWell(
+        onTap: null,
+        child: Icon(
+          Icons.delete,
+          color: Style.iconsColor[index],
+        ),
+      ),
+    ],
+  );
+}
+
+Widget _renderTitle(context, title) {
+  return Text(
+    title,
+    style: Theme.of(context).textTheme.labelLarge,
+    overflow: TextOverflow.ellipsis,
+  );
+}
+
+Widget _renderContent(context, content) {
+  return Text(
+    content,
+    softWrap: true,
+    overflow: TextOverflow.fade,
+    style: Theme.of(context).textTheme.bodyMedium,
+    textScaleFactor: 0.98,
+  );
+}
+
+Widget _renderDate(context, date) {
+  return FittedBox(
+    child: Text(
+      DateFormat('MMM d, yyyy  h:mm a').format(date),
+      style: Theme.of(context).textTheme.bodySmall,
     ),
   );
 }

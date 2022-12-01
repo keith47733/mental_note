@@ -24,9 +24,9 @@ class _HomeScreenState extends State<HomeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Style.bgColor,
-      appBar: appbar(context, Style.bgColor, 'Mental Note'),
+      appBar: appbar(context, Colors.black, 'Mental Note'),
       body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: Style.spacing),
+          padding: const EdgeInsets.all(Style.spacing),
           child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -63,7 +63,9 @@ class _HomeScreenState extends State<HomeScreen> {
               );
             }
             return Padding(
-              padding: const EdgeInsets.only(bottom: Style.spacing * 5.75),
+              padding: const EdgeInsets.only(
+                  // bottom: Style.spacing * 5.75,
+                  ),
               child: GridView(
                   gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                     crossAxisCount: 2,
@@ -83,21 +85,27 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget _renderFAB() {
-    return FloatingActionButton.extended(
-      elevation: Style.elevation,
-      backgroundColor: Colors.black,
-      onPressed: () {
-        Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AddNoteScreen(),
-            ));
-      },
-      label: Text(
-        'Add Note',
-        style: Theme.of(context).textTheme.titleMedium!.copyWith(
-              color: Colors.white,
-            ),
+    return Padding(
+      padding: const EdgeInsets.only(
+        right: Style.spacing / 2,
+        bottom: Style.spacing / 2,
+      ),
+      child: FloatingActionButton.extended(
+        elevation: Style.elevation,
+        backgroundColor: Colors.black,
+        onPressed: () {
+          Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const AddNoteScreen(),
+              ));
+        },
+        label: Text(
+          'Add Note',
+          style: Theme.of(context).textTheme.labelLarge!.copyWith(
+                color: Colors.white,
+              ),
+        ),
       ),
     );
   }

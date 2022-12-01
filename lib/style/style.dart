@@ -15,6 +15,16 @@ class Style {
     Colors.blueGrey.shade100,
   ];
 
+  static List<Color> iconsColor = [
+    Colors.red.shade700,
+    Colors.pink.shade700,
+    Colors.orange.shade700,
+    Colors.yellow.shade700,
+    Colors.green.shade700,
+    Colors.blue.shade700,
+    Colors.blueGrey.shade700,
+  ];
+
   static const textScaleFactor = 1.2;
 
   static const layoutScaleFactor = 1.0;

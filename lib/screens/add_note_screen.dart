@@ -62,7 +62,7 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
                 const SizedBox(height: Style.spacing),
                 Text(
                   DateFormat('MMM d, yyyy  hh:mm a').format(date),
-                  style: Theme.of(context).textTheme.titleSmall,
+                  style: Theme.of(context).textTheme.bodySmall,
                 ),
                 const SizedBox(height: Style.spacing),
                 _contentTextField(),
@@ -76,11 +76,12 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
       controller: _titleController,
       keyboardType: TextInputType.text,
       textInputAction: TextInputAction.next,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         border: InputBorder.none,
         hintText: 'Title',
+        hintStyle: Theme.of(context).textTheme.labelLarge,
       ),
-      style: Theme.of(context).textTheme.titleLarge,
+      style: Theme.of(context).textTheme.labelLarge,
     );
   }
 
@@ -90,11 +91,12 @@ class _AddNoteScreenState extends State<AddNoteScreen> {
       keyboardType: TextInputType.multiline,
       maxLines: null,
       textInputAction: TextInputAction.done,
-      decoration: const InputDecoration(
+      decoration: InputDecoration(
         border: InputBorder.none,
         hintText: 'Note',
+        hintStyle: Theme.of(context).textTheme.bodyMedium,
       ),
-      style: Theme.of(context).textTheme.bodyLarge,
+      style: Theme.of(context).textTheme.bodyMedium,
     );
   }
 
